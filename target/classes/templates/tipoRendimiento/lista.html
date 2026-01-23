@@ -64,8 +64,8 @@
                         <td th:text="${tipo.id}"></td>
                         <td th:text="${tipo.tipo}"></td>
                         <td>
-                            <a th:href="@{/inversiones/tipoRendimiento/editar/{id}(id=${tipo.id})}" class="btn btn-warning btn-sm">Editar</a>
-                            <a th:href="@{/inversiones/tipoRendimiento/eliminar/{id}(id=${tipo.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                            <a th:href="@{/tipoRendimiento/editar/{id}(id=${tipo.id})}" class="btn btn-warning btn-sm">Editar</a>
+                            <a th:href="@{/tipoRendimiento/eliminar/{id}(id=${tipo.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
                         </td>
                     </tr>
                 </tbody>

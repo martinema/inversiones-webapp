@@ -37,7 +37,7 @@
             <a href="/inversiones/proyecto" class="btn btn-secondary">← Volver</a>
         </div>
         
-        <form th:action="@{/inversiones/proyecto/guardar}" method="POST" th:object="${proyecto}">
+        <form th:action="@{/proyecto/guardar}" method="POST" th:object="${proyecto}">
             <input type="hidden" th:field="*{id}">
             
             <div class="row">

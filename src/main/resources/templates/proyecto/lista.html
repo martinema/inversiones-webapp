@@ -80,8 +80,8 @@
                             <td th:text="${proyecto.importeInversionEur}"></td>
                             <td th:text="${proyecto.importeInversionDol}"></td>
                             <td>
-                                <a th:href="@{/inversiones/proyecto/editar/{id}(id=${proyecto.id})}" class="btn btn-warning btn-sm">Editar</a>
-                                <a th:href="@{/inversiones/proyecto/eliminar/{id}(id=${proyecto.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
+                                <a th:href="@{/proyecto/editar/{id}(id=${proyecto.id})}" class="btn btn-warning btn-sm">Editar</a>
+                                <a th:href="@{/proyecto/eliminar/{id}(id=${proyecto.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</a>
                             </td>
                         </tr>
                     </tbody>
