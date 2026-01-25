@@ -1,14 +1,25 @@
 package com.inversiones.entity;
 
 import java.time.LocalDate;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Entidad Proyectos
- * Almacena información de los proyectos de inversión
+ * Entidad Proyectos Almacena información de los proyectos de inversión
  */
 @Entity
 @Table(name = "Proyectos")
@@ -17,72 +28,85 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Proyecto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Integer id;
 
-    @Column(name = "Inmueble", nullable = false, length = 255)
-    private String inmueble;
+	@Column(name = "Inmueble", nullable = false, length = 255)
+	private String inmueble;
 
-    @Column(name = "Moneda", nullable = false, length = 10)
-    private String moneda;
+	@Column(name = "Moneda", nullable = false, length = 10)
+	private String moneda;
 
-    @Column(name = "ID_Tipo_rendimiento", nullable = false)
-    private Integer idTipoRendimiento;
+	@Column(name = "ID_Tipo_rendimiento", nullable = false)
+	private Integer idTipoRendimiento;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_Tipo_rendimiento", referencedColumnName = "ID", insertable = false, updatable = false)
-    private TipoRendimiento tipoRendimiento;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "ID_Tipo_rendimiento", referencedColumnName = "ID", insertable = false, updatable = false)
+	private TipoRendimiento tipoRendimiento;
 
-    @Column(name = "Estado", length = 50)
-    private String estado;
+	@Column(name = "Estado", length = 50)
+	private String estado;
 
-    @Column(name = "Duracion")
-    private Integer duracion;
+	@Column(name = "Duracion")
+	private Integer duracion;
 
-    @Column(name = "Estatus", length = 50)
-    private String estatus;
+	@Column(name = "Estatus", length = 50)
+	private String estatus;
 
-    @Column(name = "rentabilidad_anual_reentel")
-    private Integer rentabilidadAnualReentel;
+	@Column(name = "rentabilidad_mensual_reentel")
+	private Integer rentabilidadMensualReentel;
 
-    @Column(name = "rentabilidad_anual_reentel_pro")
-    private Integer rentabilidadAnualReentelPro;
+	@Column(name = "rentabilidad_mensual_reentel_pro")
+	private Integer rentabilidadMensualReentelPro;
 
-    @Column(name = "rentabilidad_anual_reentel_super")
-    private Integer rentabilidadAnualReentelSuper;
+	@Column(name = "rentabilidad_mensual_reentel_super")
+	private Integer rentabilidadMensualReentelSuper;
 
-    @Column(name = "rentabilidad_total_reentel")
-    private Integer rentabilidadTotalReentel;
+	@Column(name = "rentabilidad_anual_reentel")
+	private Integer rentabilidadAnualReentel;
 
-    @Column(name = "rentabilidad_total_reentel_pro")
-    private Integer rentabilidadTotalReentelPro;
+	@Column(name = "rentabilidad_anual_reentel_pro")
+	private Integer rentabilidadAnualReentelPro;
 
-    @Column(name = "rentabilidad_total_reentel_super")
-    private Integer rentabilidadTotalReentelSuper;
+	@Column(name = "rentabilidad_anual_reentel_super")
+	private Integer rentabilidadAnualReentelSuper;
 
-    @Column(name = "fecha_entrada")
-    private LocalDate fechaEntrada;
+	@Column(name = "rentabilidad_total_reentel")
+	private Integer rentabilidadTotalReentel;
 
-    @Column(name = "fecha_cierre")
-    private LocalDate fechaCierre;
+	@Column(name = "rentabilidad_total_reentel_pro")
+	private Integer rentabilidadTotalReentelPro;
 
-    @Column(name = "fecha_fin")
-    private LocalDate fechaFin;
+	@Column(name = "rentabilidad_total_reentel_super")
+	private Integer rentabilidadTotalReentelSuper;
 
-    @Column(name = "fecha_inicio_renta")
-    private LocalDate fechaInicioRenta;
+	@Column(name = "fecha_entrada")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fechaEntrada;
 
-    @Column(name = "importe_inversion_eur")
-    private Double importeInversionEur;
+	@Column(name = "fecha_cierre")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fechaCierre;
 
-    @Column(name = "importe_inversion_dol")
-    private Double importeInversionDol;
+	@Column(name = "fecha_fin")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fechaFin;
 
-    @Column(name = "numero_tokens")
-    private Double numeroTokens;
+	@Column(name = "fecha_inicio_renta")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fechaInicioRenta;
 
-    @Column(name = "colateralizable")
-    private Boolean colateralizable;
+	@Column(name = "importe_inversion_eur")
+	private Double importeInversionEur;
+
+	@Column(name = "importe_inversion_dol")
+	private Double importeInversionDol;
+
+	@Column(name = "numero_tokens")
+	private Double numeroTokens;
+
+	@Column(name = "colateralizable")
+	private Boolean colateralizable;
 }
