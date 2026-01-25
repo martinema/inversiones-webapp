@@ -1,0 +1,13 @@
+Inmueble;Moneda;ID_Tipo_rendimiento;Estado;Duracion;Estatus;rentabilidad_1_reentel;rentabilidad_1_reentel_pro;rentabilidad_1_reentel_super;rentabilidad_anual_reentel;rentabilidad_anual_reentel_pro;rentabilidad_anual_reentel_super;rentabilidad_total_reentel;rentabilidad_total_reentel_pro;rentabilidad_total_reentel_super;fecha_entrada;fecha_cierre;fecha_fin;fecha_inicio_renta;importe_inversion_eur;importe_inversion_dol;numero_tokens;colateralizable
+Bacalar 1;USD;1;;36;SR;;;;;;16;;;48;15/10/2024;31/12/2024;28/10/2027;16/12/2024;;105,6;1;true
+Granada 3;EUR;35;;48;;;;;;;9,72;;;53,27;21/07/2025;;14/07/2029;01/11/2025;10000;11712,65;100;true
+Index 1;EUR;1;;48;;;;;;;12;;;48;31/07/2025;;18/08/2027;03/10/2025;8793,12;10040,82;87,9312;true
+Dania Beach 1;USD;36;;12;SR;;;;;;15,5;;;62;24/07/2025;;01/09/2029;09/10/2025;8586,9;10045,6;100;true
+Naples 1;USD;34;;36;SR;;;;;;17;;;51;24/07/2025;;28/07/2028;28/07/2028;8586,9;10000;100;true
+Proyecto 100;USD;35;;36;SR;;;;;;9;;;55,1;09/09/2025;;19/09/2028;15/10/2025;;15097,9;150,98;true
+S. Miguel de Allende 2;USD;35;Cierre anticipado 12/09/2025;48;;;;;;;9,44;;;40,16;21/07/2025;12/09/2025;20/10/2027;20/11/2023;4293,45;5000;50;true
+Salta 2;USD;34;Cerrado;7,5;SR;;;;;;15,53;;;9,75;21/07/2025;16/01/2026;05/01/2026;05/01/2026;4654,29;5420,22;100;true
+Samaná 1;USD;36;;36;SR;;;;;;10;;;60;29/08/2025;;28/08/2028;10/10/2025;;10000;100;true
+Yucatan 2;USD;1;;36;SR;;;;;;15;;;45;16/05/2025;;20/05/2028;29/07/2025;;188,75;1,8;
+Marbella 1;EUR;1;;24;SR;;;;;;13;;;26;11/11/2024;;07/11/2026;20/12/2024;94,04;100;1;
+Valencia 12;EUR;34;;10;SR;;;;;;14,71;;;12,26;24/07/2025;;13/04/2026;13/04/2026;10000;11712,65;100;true

@@ -50,37 +50,37 @@ public class Proyecto {
 	private String estado;
 
 	@Column(name = "Duracion")
-	private Integer duracion;
+	private Double duracion;
 
 	@Column(name = "Estatus", length = 50)
 	private String estatus;
 
 	@Column(name = "rentabilidad_mensual_reentel")
-	private Integer rentabilidadMensualReentel;
+	private Double rentabilidadMensualReentel;
 
 	@Column(name = "rentabilidad_mensual_reentel_pro")
-	private Integer rentabilidadMensualReentelPro;
+	private Double rentabilidadMensualReentelPro;
 
 	@Column(name = "rentabilidad_mensual_reentel_super")
-	private Integer rentabilidadMensualReentelSuper;
+	private Double rentabilidadMensualReentelSuper;
 
 	@Column(name = "rentabilidad_anual_reentel")
-	private Integer rentabilidadAnualReentel;
+	private Double rentabilidadAnualReentel;
 
 	@Column(name = "rentabilidad_anual_reentel_pro")
-	private Integer rentabilidadAnualReentelPro;
+	private Double rentabilidadAnualReentelPro;
 
 	@Column(name = "rentabilidad_anual_reentel_super")
-	private Integer rentabilidadAnualReentelSuper;
+	private Double rentabilidadAnualReentelSuper;
 
 	@Column(name = "rentabilidad_total_reentel")
-	private Integer rentabilidadTotalReentel;
+	private Double rentabilidadTotalReentel;
 
 	@Column(name = "rentabilidad_total_reentel_pro")
-	private Integer rentabilidadTotalReentelPro;
+	private Double rentabilidadTotalReentelPro;
 
 	@Column(name = "rentabilidad_total_reentel_super")
-	private Integer rentabilidadTotalReentelSuper;
+	private Double rentabilidadTotalReentelSuper;
 
 	@Column(name = "fecha_entrada")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
