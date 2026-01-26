@@ -51,4 +51,14 @@ public class TipoRendimientoController {
         service.eliminar(id);
         return "redirect:/tipoRendimiento";
     }
+
+    @PostMapping("/eliminarSeleccionados")
+    public String eliminarSeleccionados(@RequestParam(value = "ids", required = false) Integer[] ids) {
+        if (ids != null && ids.length > 0) {
+            for (Integer id : ids) {
+                service.eliminar(id);
+            }
+        }
+        return "redirect:/tipoRendimiento";
+    }
 }

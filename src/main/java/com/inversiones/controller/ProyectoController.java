@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.inversiones.entity.Proyecto;
 import com.inversiones.service.ProyectoService;
@@ -66,6 +67,16 @@ public class ProyectoController {
 	@GetMapping("/eliminar/{id}")
 	public String eliminar(@PathVariable Integer id) {
 		proyectoService.eliminar(id);
+		return "redirect:/proyecto";
+	}
+
+	@PostMapping("/eliminarSeleccionados")
+	public String eliminarSeleccionados(@RequestParam(value = "ids", required = false) Integer[] ids) {
+		if (ids != null && ids.length > 0) {
+			for (Integer id : ids) {
+				proyectoService.eliminar(id);
+			}
+		}
 		return "redirect:/proyecto";
 	}
 }

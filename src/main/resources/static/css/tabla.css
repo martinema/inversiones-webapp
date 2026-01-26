@@ -1,0 +1,192 @@
+/**
+ * Estilos para tablas con ordenamiento, selección y paginación
+ */
+
+/* Estilos para encabezados de tabla ordenables */
+thead th[data-column] {
+	user-select: none;
+	position: relative;
+	padding-right: 25px !important;
+}
+
+thead th[data-column]:hover {
+	background-color: rgba(102, 126, 234, 0.1);
+}
+
+/* Indicadores de ordenamiento */
+thead th.sort-asc::after {
+	content: ' ▲';
+	position: absolute;
+	right: 8px;
+	color: #667eea;
+	font-size: 12px;
+}
+
+thead th.sort-desc::after {
+	content: ' ▼';
+	position: absolute;
+	right: 8px;
+	color: #667eea;
+	font-size: 12px;
+}
+
+/* Estilos para checkboxes */
+.checkbox-column {
+	width: 40px;
+	text-align: center;
+}
+
+.checkbox-column input[type="checkbox"] {
+	cursor: pointer;
+	width: 18px;
+	height: 18px;
+}
+
+/* Fila seleccionada */
+tbody tr:has(input[type="checkbox"]:checked) {
+	background-color: rgba(102, 126, 234, 0.15) !important;
+}
+
+tbody td {
+	display: table-cell;
+	white-space: nowrap;
+}
+/* Botón de eliminación múltiple */
+.btn-delete-multiple {
+	background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+	border: none;
+	color: white;
+	font-weight: bold;
+	margin-right: 10px;
+}
+
+.btn-delete-multiple:hover {
+	background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+	color: white;
+}
+
+.btn-delete-multiple:disabled {
+	background: #6c757d;
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+/* Contenedor de acciones */
+.table-actions {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.selected-count {
+	color: #667eea;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+.selected-count.hidden {
+	display: none;
+}
+
+/* Estilos para controles de paginación */
+.pagination-controls {
+	background: white;
+	border-radius: 8px;
+	padding: 20px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pagination-controls .d-flex {
+	flex-wrap: wrap;
+}
+
+.items-per-page {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.items-per-page label {
+	margin-bottom: 0;
+	font-weight: 500;
+	white-space: nowrap;
+}
+
+.items-per-page select {
+	border: 1px solid #dee2e6;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 14px;
+}
+
+.items-per-page select:focus {
+	border-color: #667eea;
+	box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.pagination-info {
+	color: #667eea;
+	font-weight: 500;
+	white-space: nowrap;
+	font-size: 14px;
+}
+
+/* Estilos de paginación */
+.pagination {
+	background: transparent;
+}
+
+.pagination .page-link {
+	color: #667eea;
+	border-color: #dee2e6;
+	font-weight: 500;
+}
+
+.pagination .page-link:hover:not(.disabled) {
+	color: white;
+	background-color: #667eea;
+	border-color: #667eea;
+}
+
+.pagination .page-item.active .page-link {
+	background-color: #667eea;
+	border-color: #667eea;
+	color: white;
+}
+
+.pagination .page-item.disabled .page-link {
+	color: #6c757d;
+	cursor: not-allowed;
+	opacity: 0.5;
+}
+
+/* Responsive para paginación */
+@media ( max-width : 768px) {
+	.pagination-controls {
+		padding: 15px;
+	}
+	.pagination-controls .d-flex {
+		flex-direction: column;
+		gap: 15px;
+	}
+	.items-per-page, .pagination-info {
+		width: 100%;
+		justify-content: center;
+	}
+	.pagination {
+		justify-content: center;
+	}
+	.pagination .page-link {
+		padding: 0.4rem 0.6rem;
+		font-size: 12px;
+	}
+}
+
+.texto-recortado {
+	width: 100px;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
