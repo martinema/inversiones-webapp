@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen Mensual de Rendimientos</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link href="../css/tabla.css" rel="stylesheet">
+<th:block th:include="menu :: styles"></th:block>
+<style>
+.table-container {
+	background: white;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+	margin-top: 20px;
+}
+
+h1 {
+	color: #667eea;
+	margin-bottom: 30px;
+}
+
+.year-header {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	padding: 15px;
+	border-radius: 8px;
+	margin-bottom: 15px;
+	margin-top: 20px;
+	font-weight: bold;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+	user-select: none;
+}
+
+.year-header:hover {
+	background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+}
+
+.year-toggle {
+	font-size: 20px;
+	margin-right: 10px;
+	transition: transform 0.3s;
+}
+
+.year-toggle.collapsed {
+	transform: rotate(-90deg);
+}
+
+.year-info {
+	display: flex;
+	gap: 30px;
+	flex: 1;
+}
+
+.year-stat {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.year-stat-label {
+	font-size: 11px;
+	opacity: 0.8;
+	text-transform: uppercase;
+}
+
+.year-stat-value {
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.year-content {
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.year-content.collapsed {
+	display: none;
+}
+
+.mes-header {
+	background: linear-gradient(135deg, #7b9ef0 0%, #8b5bb0 100%);
+	color: white;
+	padding: 12px;
+	border-radius: 6px;
+	margin-bottom: 10px;
+	font-weight: bold;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: pointer;
+	user-select: none;
+}
+
+.mes-header:hover {
+	background: linear-gradient(135deg, #8b5bb0 0%, #7b9ef0 100%);
+}
+
+.mes-toggle {
+	font-size: 16px;
+	margin-right: 10px;
+	transition: transform 0.3s;
+}
+
+.mes-toggle.collapsed {
+	transform: rotate(-90deg);
+}
+
+.mes-info {
+	display: flex;
+	gap: 20px;
+	flex: 1;
+	align-items: center;
+}
+
+.mes-name {
+	min-width: 120px;
+}
+
+.mes-totals {
+	font-size: 12px;
+	display: flex;
+	gap: 15px;
+}
+
+.mes-total-item {
+	text-align: center;
+}
+
+.mes-total-item-label {
+	font-size: 10px;
+	opacity: 0.8;
+}
+
+.mes-total-item-value {
+	font-weight: bold;
+}
+
+.mes-content {
+	margin-left: 10px;
+	margin-bottom: 15px;
+}
+
+.mes-content.collapsed {
+	display: none;
+}
+
+.table-mes {
+	margin-bottom: 20px;
+}
+
+.table-mes thead {
+	background-color: #f8f9fa;
+	border-bottom: 2px solid #667eea;
+}
+
+.table-mes thead th {
+	color: #667eea;
+	font-weight: bold;
+	border-color: #dee2e6;
+	padding: 10px;
+	text-align: right;
+	font-size: 13px;
+}
+
+.table-mes thead th:first-child {
+	text-align: left;
+}
+
+.table-mes tbody td {
+	padding: 8px 10px;
+	border-color: #dee2e6;
+	text-align: right;
+	font-size: 13px;
+}
+
+.table-mes tbody td:first-child {
+	text-align: left;
+	font-weight: 500;
+}
+
+.table-mes tbody tr {
+	border-bottom: 1px solid #e9ecef;
+}
+
+.table-mes tbody tr:hover {
+	background-color: rgba(102, 126, 234, 0.05);
+}
+
+.total-row {
+	background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%,
+		rgba(118, 75, 162, 0.1) 100%);
+	font-weight: bold;
+	border-top: 2px solid #667eea;
+}
+
+.total-row td {
+	padding: 10px;
+	color: #667eea;
+}
+
+.valor-positivo {
+	color: #28a745;
+	font-weight: 600;
+}
+
+.valor-cero {
+	color: #6c757d;
+}
+
+.btn-volver {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	border: none;
+	color: white;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.btn-volver:hover {
+	background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+	color: white;
+}
+
+.resumen-general {
+	background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+	border-left: 4px solid #667eea;
+	padding: 20px;
+	border-radius: 8px;
+	margin-bottom: 30px;
+}
+
+.resumen-general h4 {
+	color: #667eea;
+	margin-bottom: 15px;
+}
+
+.stat-box {
+	display: inline-block;
+	margin-right: 30px;
+	margin-bottom: 10px;
+}
+
+.stat-label {
+	color: #6c757d;
+	font-size: 12px;
+	font-weight: bold;
+	text-transform: uppercase;
+	margin-bottom: 5px;
+}
+
+.stat-value {
+	color: #667eea;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+.sin-datos {
+	text-align: center;
+	padding: 40px;
+	color: #6c757d;
+}
+
+.btn-toggle-all {
+	background: #667eea;
+	color: white;
+	border: none;
+	padding: 8px 15px;
+	border-radius: 5px;
+	margin-bottom: 15px;
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.btn-toggle-all:hover {
+	background: #764ba2;
+}
+
+@media ( max-width : 768px) {
+	.year-info {
+		flex-direction: column;
+		gap: 10px;
+	}
+	
+	.mes-info {
+		flex-direction: column;
+		gap: 10px;
+	}
+	
+	.mes-totals {
+		flex-direction: column;
+	}
+	
+	.table-mes {
+		font-size: 12px;
+	}
+	
+	.table-mes thead th, .table-mes tbody td {
+		padding: 6px;
+	}
+	
+	.stat-box {
+		display: block;
+		margin-bottom: 15px;
+		margin-right: 0;
+	}
+}
+</style>
+</head>
+<body>
+	<!-- Sidebar -->
+	<div th:include="menu :: sidebar" class="sidebar"></div>
+
+	<!-- Content -->
+	<div class="content">
+		<div class="d-flex justify-content-between align-items-center mb-4">
+			<h1>📊 Resumen Mensual de Rendimientos</h1>
+			<a href="/inversiones/rendimiento" class="btn btn-volver">←
+				Volver a Rendimientos</a>
+		</div>
+
+		<div class="table-container">
+			<!-- Resumen General -->
+			<div th:if="${!anos.isEmpty()}" class="resumen-general">
+				<h4>📈 Resumen Total</h4>
+				<div class="stat-box">
+					<div class="stat-label">Total Distribuido</div>
+					<div class="stat-value">
+						$<span th:text="${#numbers.formatDecimal(totalDistributed, 1, 2, 'POINT')}"></span>
+					</div>
+				</div>
+				<div class="stat-box">
+					<div class="stat-label">Total Retenido</div>
+					<div class="stat-value">
+						$<span th:text="${#numbers.formatDecimal(totalRetained, 1, 2, 'POINT')}"></span>
+					</div>
+				</div>
+				<div class="stat-box">
+					<div class="stat-label">Total Reinvertido</div>
+					<div class="stat-value">
+						$<span th:text="${#numbers.formatDecimal(totalReinvested, 1, 2, 'POINT')}"></span>
+					</div>
+				</div>
+				<div class="stat-box">
+					<div class="stat-label">Total Reclamado</div>
+					<div class="stat-value">
+						$<span th:text="${#numbers.formatDecimal(totalClaimed, 1, 2, 'POINT')}"></span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Botones de expansión -->
+			<div th:if="${!anos.isEmpty()}">
+				<button class="btn-toggle-all" onclick="expandirTodo()">📂 Expandir Todo</button>
+				<button class="btn-toggle-all" onclick="contraerTodo()">📁 Contraer Todo</button>
+			</div>
+
+			<!-- Tabla por Años y Meses -->
+			<div th:if="${!anos.isEmpty()}">
+				<div th:each="ano : ${anos}" class="year-section">
+					<!-- Encabezado del Año -->
+					<div class="year-header" onclick="toggleYear(this)">
+						<div>
+							<span class="year-toggle">▼</span>
+							<span th:text="'📅 ' + ${ano}"></span>
+						</div>
+						<div class="year-info">
+							<div class="year-stat">
+								<span class="year-stat-label">Distribuido</span>
+								<span class="year-stat-value">$<span
+									th:text="${#numbers.formatDecimal(totalesPorAno.get(ano).get('distributed'), 1, 2, 'POINT')}"></span></span>
+							</div>
+							<div class="year-stat">
+								<span class="year-stat-label">Retenido</span>
+								<span class="year-stat-value">$<span
+									th:text="${#numbers.formatDecimal(totalesPorAno.get(ano).get('retained'), 1, 2, 'POINT')}"></span></span>
+							</div>
+							<div class="year-stat">
+								<span class="year-stat-label">Reinvertido</span>
+								<span class="year-stat-value">$<span
+									th:text="${#numbers.formatDecimal(totalesPorAno.get(ano).get('reinvested'), 1, 2, 'POINT')}"></span></span>
+							</div>
+							<div class="year-stat">
+								<span class="year-stat-label">Reclamado</span>
+								<span class="year-stat-value">$<span
+									th:text="${#numbers.formatDecimal(totalesPorAno.get(ano).get('claimed'), 1, 2, 'POINT')}"></span></span>
+							</div>
+							<div class="year-stat">
+								<span class="year-stat-label">Registros</span>
+								<span class="year-stat-value"><span
+									th:text="${totalesPorAno.get(ano).get('count').intValue()}"></span></span>
+							</div>
+						</div>
+					</div>
+
+					<!-- Contenido del Año (Meses) -->
+					<div class="year-content">
+						<div th:each="mesEntry : ${rendimientosPorAno.get(ano).entrySet()}" class="mes-section">
+							<div th:with="mes=${mesEntry.key}">
+								<!-- Encabezado del Mes -->
+								<div class="mes-header" onclick="toggleMes(this)">
+									<div class="mes-info">
+										<div>
+											<span class="mes-toggle">▼</span>
+											<span class="mes-name"
+												th:text="${#temporals.format(mes.atDay(1), 'MMMM yyyy', 'es_ES')}"></span>
+										</div>
+										<div class="mes-totals">
+											<div class="mes-total-item">
+												<div class="mes-total-item-label">Distribuido</div>
+												<div class="mes-total-item-value">$<span
+													th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('distributed'), 1, 2, 'POINT')}"></span></div>
+											</div>
+											<div class="mes-total-item">
+												<div class="mes-total-item-label">Retenido</div>
+												<div class="mes-total-item-value">$<span
+													th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('retained'), 1, 2, 'POINT')}"></span></div>
+											</div>
+											<div class="mes-total-item">
+												<div class="mes-total-item-label">Reinvertido</div>
+												<div class="mes-total-item-value">$<span
+													th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('reinvested'), 1, 2, 'POINT')}"></span></div>
+											</div>
+											<div class="mes-total-item">
+												<div class="mes-total-item-label">Reclamado</div>
+												<div class="mes-total-item-value">$<span
+													th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('claimed'), 1, 2, 'POINT')}"></span></div>
+											</div>
+										</div>
+									</div>
+									<span class="registro-count"><span
+										th:text="${totalesPorMes.get(mes).get('count').intValue()}"></span> registros</span>
+								</div>
+
+								<!-- Contenido del Mes (Tabla) -->
+								<div class="mes-content">
+									<div class="table-responsive table-mes">
+										<table class="table table-striped table-hover table-sm">
+											<thead>
+												<tr>
+													<th style="width: 12%">Wallet</th>
+													<th style="width: 10%">Dividend</th>
+													<th style="width: 12%">Distribuido</th>
+													<th style="width: 12%">Retenido</th>
+													<th style="width: 12%">Reinvertido</th>
+													<th style="width: 12%">Reclamado</th>
+													<th style="width: 30%">Hash ID</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr
+													th:each="rendimiento : ${rendimientosPorMes.get(mes)}">
+													<td
+														th:text="${#strings.substring(rendimiento.wallet, 0, 10) + '...'}"></td>
+													<td
+														th:text="${#strings.substring(rendimiento.dividend, 0, #strings.indexOf(rendimiento.dividend,'#')) }"></td>
+													<td><span class="valor-positivo"
+														th:if="${rendimiento.distributed != null and rendimiento.distributed > 0}"
+														th:text="${#numbers.formatDecimal(rendimiento.distributed, 1, 2, 'POINT')}"></span>
+														<span class="valor-cero"
+														th:if="${rendimiento.distributed == null or rendimiento.distributed == 0}">0.00</span>
+													</td>
+													<td><span class="valor-positivo"
+														th:if="${rendimiento.retained != null and rendimiento.retained > 0}"
+														th:text="${#numbers.formatDecimal(rendimiento.retained, 1, 2, 'POINT')}"></span>
+														<span class="valor-cero"
+														th:if="${rendimiento.retained == null or rendimiento.retained == 0}">0.00</span>
+													</td>
+													<td><span class="valor-positivo"
+														th:if="${rendimiento.reinvested != null and rendimiento.reinvested > 0}"
+														th:text="${#numbers.formatDecimal(rendimiento.reinvested, 1, 2, 'POINT')}"></span>
+														<span class="valor-cero"
+														th:if="${rendimiento.reinvested == null or rendimiento.reinvested == 0}">0.00</span>
+													</td>
+													<td><span class="valor-positivo"
+														th:if="${rendimiento.claimed != null and rendimiento.claimed > 0}"
+														th:text="${#numbers.formatDecimal(rendimiento.claimed, 1, 2, 'POINT')}"></span>
+														<span class="valor-cero"
+														th:if="${rendimiento.claimed == null or rendimiento.claimed == 0}">0.00</span>
+													</td>
+													<td
+														th:text="${#strings.substring(rendimiento.hashid, 0, 20) + '...'}"></td>
+												</tr>
+
+												<!-- Fila de Totales del Mes -->
+												<tr class="total-row">
+													<td colspan="2">TOTAL MES</td>
+													<td
+														th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('distributed'), 1, 2, 'POINT')}"></td>
+													<td
+														th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('retained'), 1, 2, 'POINT')}"></td>
+													<td
+														th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('reinvested'), 1, 2, 'POINT')}"></td>
+													<td
+														th:text="${#numbers.formatDecimal(totalesPorMes.get(mes).get('claimed'), 1, 2, 'POINT')}"></td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Mensaje si no hay datos -->
+			<div th:if="${anos.isEmpty()}" class="sin-datos">
+				<p>No hay datos de rendimientos para mostrar</p>
+				<a href="/inversiones/rendimiento" class="btn btn-primary mt-3">Volver
+					a Rendimientos</a>
+			</div>
+		</div>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		function toggleYear(header) {
+			const toggle = header.querySelector('.year-toggle');
+			const content = header.nextElementSibling;
+			
+			toggle.classList.toggle('collapsed');
+			content.classList.toggle('collapsed');
+		}
+
+		function toggleMes(header) {
+			const toggle = header.querySelector('.mes-toggle');
+			const content = header.nextElementSibling;
+			
+			toggle.classList.toggle('collapsed');
+			content.classList.toggle('collapsed');
+		}
+
+		function expandirTodo() {
+			document.querySelectorAll('.year-toggle').forEach(el => {
+				el.classList.remove('collapsed');
+			});
+			document.querySelectorAll('.year-content').forEach(el => {
+				el.classList.remove('collapsed');
+			});
+			document.querySelectorAll('.mes-toggle').forEach(el => {
+				el.classList.remove('collapsed');
+			});
+			document.querySelectorAll('.mes-content').forEach(el => {
+				el.classList.remove('collapsed');
+			});
+		}
+
+		function contraerTodo() {
+			document.querySelectorAll('.year-toggle').forEach(el => {
+				el.classList.add('collapsed');
+			});
+			document.querySelectorAll('.year-content').forEach(el => {
+				el.classList.add('collapsed');
+			});
+			document.querySelectorAll('.mes-toggle').forEach(el => {
+				el.classList.add('collapsed');
+			});
+			document.querySelectorAll('.mes-content').forEach(el => {
+				el.classList.add('collapsed');
+			});
+		}
+	</script>
+</body>
+</html>

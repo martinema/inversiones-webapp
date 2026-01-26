@@ -1,6 +1,13 @@
 package com.inversiones.controller;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +36,88 @@ public class RendimientoController {
 	public String listar(Model model) {
 		model.addAttribute("rendimientos", service.obtenerTodos());
 		return "rendimiento/lista";
+	}
+
+	private LocalDate dameFecha(Rendimiento r) {
+		String strFecha = r.getDividend();
+		strFecha = "01/" + strFecha.substring(strFecha.indexOf("#") + 1, strFecha.length());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/M/yyyy"); // 12/2024
+		return LocalDate.parse(strFecha, formatter);
+
+	}
+
+	@GetMapping("/resumenMensual")
+	public String resumenMensual(Model model) {
+		List<Rendimiento> rendimientos = service.obtenerTodos();
+
+		// Agrupar por mes
+		Map<YearMonth, List<Rendimiento>> rendimientosPorMes = rendimientos.stream().filter(r -> dameFecha(r) != null)
+				.collect(Collectors.groupingBy(r -> YearMonth.from(dameFecha(r)), LinkedHashMap::new,
+						Collectors.toList()));
+
+		// Calcular totales por mes
+		Map<YearMonth, Map<String, Double>> totalesPorMes = new LinkedHashMap<>();
+		rendimientosPorMes.forEach((mes, lista) -> {
+			Map<String, Double> totales = new LinkedHashMap<>();
+			totales.put("distributed",
+					lista.stream().mapToDouble(r -> r.getDistributed() != null ? r.getDistributed() : 0).sum());
+			totales.put("retained",
+					lista.stream().mapToDouble(r -> r.getRetained() != null ? r.getRetained() : 0).sum());
+			totales.put("reinvested",
+					lista.stream().mapToDouble(r -> r.getReinvested() != null ? r.getReinvested() : 0).sum());
+			totales.put("claimed", lista.stream().mapToDouble(r -> r.getClaimed() != null ? r.getClaimed() : 0).sum());
+			totales.put("count", (double) lista.size());
+			totalesPorMes.put(mes, totales);
+		});
+
+		// Agrupar por año
+		Map<Integer, Map<YearMonth, List<Rendimiento>>> rendimientosPorAno = rendimientosPorMes.entrySet()
+				.stream()
+				.collect(Collectors.groupingBy(
+					e -> e.getKey().getYear(),
+					LinkedHashMap::new,
+					Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)
+				));
+
+		// Calcular totales por año
+		Map<Integer, Map<String, Double>> totalesPorAno = new LinkedHashMap<>();
+		for (Integer ano : rendimientosPorAno.keySet()) {
+			Map<String, Double> totalesAno = new LinkedHashMap<>();
+			double distributed = 0, retained = 0, reinvested = 0, claimed = 0;
+			int count = 0;
+
+			for (YearMonth mes : rendimientosPorAno.get(ano).keySet()) {
+				Map<String, Double> totalesMes = totalesPorMes.get(mes);
+				distributed += totalesMes.get("distributed");
+				retained += totalesMes.get("retained");
+				reinvested += totalesMes.get("reinvested");
+				claimed += totalesMes.get("claimed");
+				count += totalesMes.get("count").intValue();
+			}
+
+			totalesAno.put("distributed", distributed);
+			totalesAno.put("retained", retained);
+			totalesAno.put("reinvested", reinvested);
+			totalesAno.put("claimed", claimed);
+			totalesAno.put("count", (double) count);
+			totalesPorAno.put(ano, totalesAno);
+		}
+
+		model.addAttribute("totalDistributed",
+				totalesPorMes.values().stream().mapToDouble(m -> m.get("distributed")).sum());
+		model.addAttribute("totalRetained", totalesPorMes.values().stream().mapToDouble(m -> m.get("retained")).sum());
+		model.addAttribute("totalReinvested",
+				totalesPorMes.values().stream().mapToDouble(m -> m.get("reinvested")).sum());
+		model.addAttribute("totalClaimed", totalesPorMes.values().stream().mapToDouble(m -> m.get("claimed")).sum());
+		
+		model.addAttribute("rendimientosPorMes", rendimientosPorMes);
+		model.addAttribute("totalesPorMes", totalesPorMes);
+		model.addAttribute("rendimientosPorAno", rendimientosPorAno);
+		model.addAttribute("totalesPorAno", totalesPorAno);
+		model.addAttribute("meses", rendimientosPorMes.keySet());
+		model.addAttribute("anos", rendimientosPorAno.keySet());
+		
+		return "rendimiento/resumenMensual";
 	}
 
 	@GetMapping("/importCsv")
