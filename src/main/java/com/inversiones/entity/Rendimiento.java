@@ -1,14 +1,22 @@
 package com.inversiones.entity;
 
 import java.time.LocalDate;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Entidad Rendimientos
- * Almacena información de los rendimientos obtenidos
+ * Entidad Rendimientos Almacena información de los rendimientos obtenidos
  */
 @Entity
 @Table(name = "Rendimientos")
@@ -17,38 +25,39 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Rendimiento {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	private Integer id;
 
-    @Column(name = "dividend", length = 255)
-    private String dividend;
+	@Column(name = "dividend", length = 255)
+	private String dividend;
 
-    @Column(name = "hashid", length = 255)
-    private String hashid;
+	@Column(name = "hashid", length = 255)
+	private String hashid;
 
-    @Column(name = "wallet", length = 255)
-    private String wallet;
+	@Column(name = "wallet", length = 255)
+	private String wallet;
 
-    @Column(name = "distributed")
-    private Double distributed;
+	@Column(name = "distributed")
+	private Double distributed;
 
-    @Column(name = "retained")
-    private Double retained;
+	@Column(name = "retained")
+	private Double retained;
 
-    @Column(name = "reinvested")
-    private Double reinvested;
+	@Column(name = "reinvested")
+	private Double reinvested;
 
-    @Column(name = "claimed")
-    private Double claimed;
+	@Column(name = "claimed")
+	private Double claimed;
 
-    @Column(name = "claims", columnDefinition = "LONGTEXT")
-    private String claims;
+	@Column(name = "claims", columnDefinition = "LONGTEXT")
+	private String claims;
 
-    @Column(name = "reinvests", columnDefinition = "LONGTEXT")
-    private String reinvests;
+	@Column(name = "reinvests", columnDefinition = "LONGTEXT")
+	private String reinvests;
 
-    @Column(name = "date")
-    private LocalDate date;
+	@Column(name = "date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate date;
 }
