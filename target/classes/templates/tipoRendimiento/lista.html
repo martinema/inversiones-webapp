@@ -68,6 +68,7 @@ h1 {
                             </th>
                             <th data-column="id" style="width: 1%">ID</th>
                             <th data-column="tipo">Tipo</th>
+                            <th data-column="periodo" style="width: 10%">Período (meses)</th>
                             <th style="width: 1%">Acciones</th>
                         </tr>
                     </thead>
@@ -78,6 +79,7 @@ h1 {
                             </td>
                             <td data-column="id" th:text="${tipo.id}"></td>
                             <td data-column="tipo" th:text="${tipo.tipo}"></td>
+                            <td data-column="periodo" th:text="${tipo.periodo}"></td>
                             <td>
                                 <a th:href="@{/tipoRendimiento/editar/{id}(id=${tipo.id})}" class="btn btn-warning btn-sm">Editar</a>
                                 <a th:href="@{/tipoRendimiento/eliminar/{id}(id=${tipo.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro?')">Eliminar</a>

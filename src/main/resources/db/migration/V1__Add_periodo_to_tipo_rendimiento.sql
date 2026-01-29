@@ -1,0 +1,2 @@
+-- Agregar columna periodo a la tabla Tipo_rendimiento
+--ALTER TABLE Tipo_rendimiento ADD COLUMN periodo INT DEFAULT 1 NOT NULL;

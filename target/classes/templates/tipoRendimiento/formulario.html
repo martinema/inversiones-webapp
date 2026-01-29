@@ -59,6 +59,14 @@ h1 {
                 <input type="text" class="form-control" id="tipo" th:field="*{tipo}" placeholder="Ej: Interés, Dividendo..." required>
             </div>
             
+            <div class="mb-3">
+                <label for="periodo" class="form-label">Período (en meses) *</label>
+                <input type="number" class="form-control" id="periodo" th:field="*{periodo}" 
+                       min="1" step="1" placeholder="Ej: 1, 3, 6, 12..." required
+                       title="Ingrese cada cuántos meses se calcula el rendimiento">
+                <small class="form-text text-muted">Indica cada cuántos meses se calcula y distribuye el rendimiento</small>
+            </div>
+            
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-guardar">💾 Guardar</button>
                 <a href="/inversiones/tipoRendimiento" class="btn btn-volver">Cancelar</a>

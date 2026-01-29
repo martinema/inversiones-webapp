@@ -1,11 +1,14 @@
 package com.inversiones.service;
 
-import com.inversiones.entity.Proyecto;
-import com.inversiones.repository.ProyectoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.inversiones.entity.Proyecto;
+import com.inversiones.repository.ProyectoRepository;
 
 /**
  * Servicio para las operaciones CRUD de Proyecto
@@ -13,34 +16,37 @@ import java.util.Optional;
 @Service
 public class ProyectoService {
 
-    @Autowired
-    private ProyectoRepository repository;
+	@Autowired
+	private ProyectoRepository repository;
 
-    public List<Proyecto> obtenerTodos() {
-        return repository.findAll();
-    }
+	public List<Proyecto> obtenerTodos() {
 
-    public Optional<Proyecto> obtenerPorId(Integer id) {
-        return repository.findById(id);
-    }
+		List<Proyecto> proyectos = repository.findAll();
+		proyectos.sort(Comparator.comparing(Proyecto::getInmueble));
+		return proyectos;
+	}
 
-    public Proyecto guardar(Proyecto proyecto) {
-        return repository.save(proyecto);
-    }
+	public Optional<Proyecto> obtenerPorId(Integer id) {
+		return repository.findById(id);
+	}
 
-    public Proyecto actualizar(Integer id, Proyecto proyecto) {
-        if (repository.existsById(id)) {
-            proyecto.setId(id);
-            return repository.save(proyecto);
-        }
-        return null;
-    }
+	public Proyecto guardar(Proyecto proyecto) {
+		return repository.save(proyecto);
+	}
 
-    public boolean eliminar(Integer id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
+	public Proyecto actualizar(Integer id, Proyecto proyecto) {
+		if (repository.existsById(id)) {
+			proyecto.setId(id);
+			return repository.save(proyecto);
+		}
+		return null;
+	}
+
+	public boolean eliminar(Integer id) {
+		if (repository.existsById(id)) {
+			repository.deleteById(id);
+			return true;
+		}
+		return false;
+	}
 }

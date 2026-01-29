@@ -23,4 +23,7 @@ public class TipoRendimiento {
 
     @Column(name = "Tipo", nullable = false, length = 100)
     private String tipo;
+
+    @Column(name = "periodo", nullable = false)
+    private Integer periodo = 1;
 }
