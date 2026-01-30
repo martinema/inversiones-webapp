@@ -1,4 +1,4 @@
-FROM maven:3.8-openjdk-11 AS build
+FROM eclipse-temurin:11-jre-slim
 WORKDIR /app
 
 # Copia el código fuente
@@ -9,7 +9,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Etapa de ejecución
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:11-jre-slim
 WORKDIR /app
 
 # Copia el JAR compilado
