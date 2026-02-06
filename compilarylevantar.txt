@@ -1,7 +1,7 @@
 #actualizar primero git: git fetch; git pull
 sudo docker build -t inversiones-spring-app .
 sudo docker stop inversiones-spring && sudo docker rm inversiones-spring
-sudo docker run -d -p 8070:8080 -v /home/marti/Desarrollo/inversiones/inversiones/data:/app/data inversiones-spring-app --name inversiones-spring
+sudo docker run -d -p 8070:8080 -v /home/marti/Desarrollo/inversiones/inversiones/data:/app/data --name inversiones-spring inversiones-spring-app
 
 #Otros
 sudo docker exec -i -t inversiones-spring /bin/bash
