@@ -5,6 +5,7 @@
 // Estado global
 let sortState = {};
 let paginationState = {};
+let filterState = {};
 
 const ITEMS_PER_PAGE_OPTIONS = [10, 25, 50, 100, 150, 200];
 const DEFAULT_ITEMS_PER_PAGE = 10;
@@ -17,6 +18,9 @@ function initTable(tableId) {
     const table = document.getElementById(tableId);
     if (!table) return;
 
+    // Inicializar estado de filtrado
+    filterState[tableId] = {};
+
     // Inicializar estado de paginación
     paginationState[tableId] = {
         currentPage: 1,
@@ -28,7 +32,10 @@ function initTable(tableId) {
     const headers = table.querySelectorAll('thead th[data-column]');
     headers.forEach(header => {
         header.style.cursor = 'pointer';
-        header.addEventListener('click', function() {
+        header.addEventListener('click', function(e) {
+            // No ordenar si se hace clic en el input de filtro
+            if (e.target.tagName === 'INPUT') return;
+            
             const column = this.getAttribute('data-column');
             sortTable(tableId, column);
             updateSortIndicators(table, column);
@@ -36,6 +43,9 @@ function initTable(tableId) {
             updateTableDisplay(tableId);
         });
     });
+
+    // Crear controles de filtrado
+    createFilterControls(tableId);
 
     // Agregar event listener al checkbox "Seleccionar Todo"
     const selectAllCheckbox = document.getElementById(tableId + '-selectAll');
@@ -154,7 +164,7 @@ function renderPaginationControls(tableId) {
 }
 
 /**
- * Actualiza la visualización de la tabla con paginación
+ * Actualiza la visualización de la tabla con paginación y filtrado
  * @param {string} tableId - ID de la tabla
  */
 function updateTableDisplay(tableId) {
@@ -162,14 +172,26 @@ function updateTableDisplay(tableId) {
     const tbody = table.querySelector('tbody');
     const allRows = Array.from(tbody.querySelectorAll('tr'));
     const state = paginationState[tableId];
+    const filters = filterState[tableId];
+
+    // Filtrar filas
+    const filteredRows = allRows.filter(row => {
+        return matchesAllFilters(row, filters);
+    });
+
+    // Actualizar totalRows filtradas
+    state.totalRows = filteredRows.length;
 
     // Calcular índices
     const startIndex = (state.currentPage - 1) * state.itemsPerPage;
     const endIndex = startIndex + state.itemsPerPage;
 
     // Ocultar/mostrar filas
-    allRows.forEach((row, index) => {
-        if (index >= startIndex && index < endIndex) {
+    allRows.forEach((row) => {
+        const isFiltered = filteredRows.includes(row);
+        const indexInFiltered = filteredRows.indexOf(row);
+        
+        if (isFiltered && indexInFiltered >= startIndex && indexInFiltered < endIndex) {
             row.style.display = '';
         } else {
             row.style.display = 'none';
@@ -279,6 +301,79 @@ function sortTable(tableId, column) {
 
 function containsLetter(str) {
     return /[a-zA-Z\-\/]/.test(str);
+}
+
+/**
+ * Crea los controles de filtrado (fila de filtros en el encabezado)
+ * @param {string} tableId - ID de la tabla
+ */
+function createFilterControls(tableId) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+
+    const thead = table.querySelector('thead');
+    let filterRow = document.getElementById(tableId + '-filter-row');
+    
+    if (filterRow) {
+        filterRow.remove();
+    }
+
+    filterRow = document.createElement('tr');
+    filterRow.id = tableId + '-filter-row';
+    filterRow.className = 'filter-row';
+	const emptyTh = document.createElement('th');
+	filterRow.appendChild(emptyTh);
+	
+    const headers = thead.querySelectorAll('th[data-column]');
+    headers.forEach(header => {
+        const column = header.getAttribute('data-column');
+        const th = document.createElement('th');
+        th.className = 'filter-header';
+        
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'form-control form-control-sm filter-input';
+        input.placeholder = `Filtrar ${header.textContent.trim()}`;
+        input.setAttribute('data-column', column);
+        
+        input.addEventListener('input', function(e) {
+            filterState[tableId][column] = e.target.value.toLowerCase();
+            paginationState[tableId].currentPage = 1;
+            updateTableDisplay(tableId);
+        });
+
+        th.appendChild(input);
+        filterRow.appendChild(th);
+    });
+
+    // Agregar columna vacía para las acciones
+    const actionTh = document.createElement('th');
+    actionTh.className = 'filter-header';
+    filterRow.appendChild(actionTh);
+
+    thead.appendChild(filterRow);
+}
+
+/**
+ * Verifica si una fila coincide con todos los filtros aplicados
+ * @param {HTMLElement} row - Fila de la tabla
+ * @param {Object} filters - Objeto con los valores de filtros
+ * @returns {boolean} true si la fila coincide con todos los filtros
+ */
+function matchesAllFilters(row, filters) {
+    for (const [column, filterValue] of Object.entries(filters)) {
+        if (!filterValue || filterValue.trim() === '') continue;
+
+        const cell = row.querySelector(`td[data-column="${column}"]`);
+        if (!cell) continue;
+
+        const cellText = cell.textContent.trim().toLowerCase();
+        
+        if (!cellText.includes(filterValue)) {
+            return false;
+        }
+    }
+    return true;
 }
 
 /**

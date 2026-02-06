@@ -1,5 +1,5 @@
 /**
- * Estilos para tablas con ordenamiento, selección y paginación
+ * Estilos para tablas con ordenamiento, selección, filtrado y paginación
  */
 
 /* Estilos para encabezados de tabla ordenables */
@@ -11,6 +11,37 @@ thead th[data-column] {
 
 thead th[data-column]:hover {
 	background-color: rgba(102, 126, 234, 0.1);
+}
+
+/* Estilos para fila de filtros */
+.filter-row {
+	background-color: #f8f9fa;
+	border-bottom: 2px solid #dee2e6;
+}
+
+.filter-header {
+	padding: 8px 10px !important;
+	vertical-align: middle;
+}
+
+.filter-input {
+	border: 1px solid #dee2e6;
+	border-radius: 4px;
+	padding: 6px 8px;
+	font-size: 13px;
+	width: 100%;
+}
+
+.filter-input:focus {
+	border-color: #667eea;
+	box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+	outline: none;
+}
+
+.filter-input::placeholder {
+	color: #adb5bd;
+	font-style: italic;
+	font-size: 12px;
 }
 
 /* Indicadores de ordenamiento */
@@ -180,6 +211,15 @@ tbody td {
 	.pagination .page-link {
 		padding: 0.4rem 0.6rem;
 		font-size: 12px;
+	}
+	
+	.filter-year-section {
+		flex-direction: column;
+		align-items: flex-start !important;
+	}
+	
+	.filter-select {
+		width: 100%;
 	}
 }
 

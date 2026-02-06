@@ -18,6 +18,49 @@
 	margin-top: 20px;
 }
 
+.filter-year-section {
+	background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+	border: 1px solid #dee2e6;
+	border-radius: 8px;
+	padding: 15px 20px;
+	margin-bottom: 25px;
+	display: flex;
+	align-items: center;
+	gap: 15px;
+	flex-wrap: wrap;
+}
+
+.filter-label {
+	font-weight: 600;
+	color: #667eea;
+	margin: 0;
+	white-space: nowrap;
+	font-size: 14px;
+}
+
+.filter-select {
+	border: 2px solid #dee2e6;
+	border-radius: 6px;
+	padding: 8px 12px;
+	font-size: 14px;
+	min-width: 150px;
+	background-color: white;
+	color: #495057;
+	cursor: pointer;
+	transition: all 0.3s ease;
+}
+
+.filter-select:hover {
+	border-color: #667eea;
+	box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.filter-select:focus {
+	border-color: #667eea;
+	box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+	outline: none;
+}
+
 h1 {
 	color: #667eea;
 	margin-bottom: 30px;
@@ -324,6 +367,15 @@ h1 {
 		</div>
 
 		<div class="table-container">
+			<!-- Filtro por Año -->
+			<div class="filter-year-section">
+				<label for="yearFilter" class="filter-label">Filtrar por Año:</label>
+				<select id="yearFilter" class="form-select form-select-sm filter-select" onchange="filterByYear(this.value)">
+					<option value="">-- Todos los años --</option>
+					<option th:each="ano : ${anos}" th:value="${ano}" th:text="${ano}"></option>
+				</select>
+			</div>
+
 			<!-- Resumen General -->
 			<div th:if="${!anos.isEmpty()}" class="resumen-general">
 				<h4>📈 Resumen Total de Estimaciones</h4>
@@ -403,9 +455,9 @@ h1 {
 									th:text="${#numbers.formatDecimal(totalesEstimacionesPorAno.get(ano).get('rendimientoDistribuido'), 1, 2, 'POINT')}"></span></span>
 							</div>
 							<div class="year-stat">
-								<span class="year-stat-label">Proyectos</span> <span
-									class="year-stat-value"><span
-									th:text="${totalesEstimacionesPorAno.get(ano).get('count').intValue()}"></span></span>
+<!-- 								<span class="year-stat-label">Proyectos</span> <span -->
+<!-- 									class="year-stat-value"><span -->
+<!-- 									th:text="${totalesEstimacionesPorAno.get(ano).get('count').intValue()}"></span></span> -->
 							</div>
 						</div>
 					</div>
@@ -548,6 +600,28 @@ h1 {
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script>
+		// Almacenar los años originales
+		const allYears = new Set();
+		
+		function filterByYear(selectedYear) {
+			const yearSections = document.querySelectorAll('.year-section');
+			
+			yearSections.forEach(section => {
+				const yearText = section.querySelector('.year-header').textContent.trim();
+				// Extraer el año del texto (ej: "📅 2025")
+				const yearMatch = yearText.match(/(\d{4})/);
+				const year = yearMatch ? yearMatch[1] : null;
+				
+				if (selectedYear === '') {
+					// Mostrar todos los años
+					section.style.display = '';
+				} else {
+					// Mostrar solo el año seleccionado
+					section.style.display = year === selectedYear ? '' : 'none';
+				}
+			});
+		}
+
 		function toggleYear(header) {
 			const toggle = header.querySelector('.year-toggle');
 			const content = header.nextElementSibling;

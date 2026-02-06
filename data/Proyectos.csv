@@ -1,5 +1,5 @@
 Inmueble;Moneda;ID_Tipo_rendimiento;Estado;Duracion;Estatus;rentabilidad_1_reentel;rentabilidad_1_reentel_pro;rentabilidad_1_reentel_super;rentabilidad_anual_reentel;rentabilidad_anual_reentel_pro;rentabilidad_anual_reentel_super;rentabilidad_total_reentel;rentabilidad_total_reentel_pro;rentabilidad_total_reentel_super;fecha_entrada;fecha_cierre;fecha_fin;fecha_inicio_renta;importe_inversion_eur;importe_inversion_dol;numero_tokens;colateralizable
-Bacalar 1;USD;1;;4;;0,916666667;1,083333333;1,333333333;11;13;16;33;39;48;15/10/2024;31/12/2024;28/10/2027;16/12/2024;;105,6;1;true
+Bacalar 1;USD;1;;4;;0,916666667;1,083333333;1,333333333;11;13;16;33;39;48;15/10/2024;;28/10/2027;16/12/2024;;105,6;1;true
 Granada 3;EUR;2;;48;;0,81;0,81;0,81;9,72;9,72;9,72;53,27;53,27;53,27;21/07/2025;;14/07/2029;01/11/2025;10000;11712,65;100;true
 Index 1;EUR;1;;48;;1;1;1;12;12;12;48;48;48;31/07/2025;;18/08/2027;03/10/2025;8793,12;10040,82;87,9312;true
 Dania Beach 1;USD;4;;12;SR;0,625;0,625;0,625;10,5;13,5;15,5;42;54;62;24/07/2025;;01/09/2029;09/10/2025;8586,9;10045,6;100;true
