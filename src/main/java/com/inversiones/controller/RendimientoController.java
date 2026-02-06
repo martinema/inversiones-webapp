@@ -139,12 +139,17 @@ public class RendimientoController {
 				totalesPorMes.values().stream().mapToDouble(m -> m.get("reinvested")).sum());
 		model.addAttribute("totalClaimed", totalesPorMes.values().stream().mapToDouble(m -> m.get("claimed")).sum());
 
+		// Ordenar los años en orden descendente
+		List<Integer> anosOrdenados = rendimientosPorAno.keySet().stream()
+				.sorted((a, b) -> b.compareTo(a))
+				.collect(Collectors.toList());
+
 		model.addAttribute("rendimientosPorMes", rendimientosPorMes);
 		model.addAttribute("totalesPorMes", totalesPorMes);
 		model.addAttribute("rendimientosPorAno", rendimientosPorAno);
 		model.addAttribute("totalesPorAno", totalesPorAno);
 		model.addAttribute("meses", rendimientosPorMes.keySet());
-		model.addAttribute("anos", rendimientosPorAno.keySet());
+		model.addAttribute("anos", anosOrdenados);
 
 		return "rendimiento/resumenMensual";
 	}

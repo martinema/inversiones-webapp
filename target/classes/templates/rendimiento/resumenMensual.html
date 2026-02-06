@@ -567,6 +567,53 @@ h1 {
 				el.classList.add('collapsed');
 			});
 		}
+
+		// Al cargar la página, contraer todo y expandir solo el mes actual
+		document.addEventListener('DOMContentLoaded', function() {
+			// Primero contraer TODO
+			contraerTodo();
+			
+			// Obtener mes actual
+			const hoy = new Date();
+			const mesActual = hoy.getMonth(); // 0-11
+			const diaActual = hoy.getDate();
+			const añoActual = hoy.getFullYear();
+			
+			// Arrays de nombres de meses en español
+			const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+			const nombreMesActual = meses[mesActual];
+			
+			// Buscar y expandir el año actual y el mes actual
+			const yearHeaders = document.querySelectorAll('.year-header');
+			yearHeaders.forEach((yearHeader) => {
+				const yearText = yearHeader.textContent;
+				const yearContent = yearHeader.nextElementSibling;
+				
+				// Verificar si este año es el actual
+				const esAñoActual = yearText.includes(String(añoActual));
+				
+				if (esAñoActual) {
+					// Expandir el año
+					const yearToggle = yearHeader.querySelector('.year-toggle');
+					yearToggle.classList.remove('collapsed');
+					yearContent.classList.remove('collapsed');
+					
+					// Ahora expandir solo el mes actual
+					const mesHeaders = yearContent.querySelectorAll('.mes-header');
+					mesHeaders.forEach((mesHeader) => {
+						const mesText = mesHeader.textContent.toLowerCase();
+						const mesToggle = mesHeader.querySelector('.mes-toggle');
+						const mesContent = mesHeader.nextElementSibling;
+						
+						// Si el texto del mes contiene el nombre del mes actual, expandirlo
+						if (mesText.includes(nombreMesActual)) {
+							mesToggle.classList.remove('collapsed');
+							mesContent.classList.remove('collapsed');
+						}
+					});
+				}
+			});
+		});
 	</script>
 </body>
 </html>
