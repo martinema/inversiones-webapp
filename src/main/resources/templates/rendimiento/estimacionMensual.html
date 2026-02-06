@@ -400,13 +400,13 @@ h1 {
 							th:text="${#numbers.formatDecimal(totalGlobalReentelSuper, 1, 2, 'POINT')}"></span>
 					</div>
 				</div>
-				<div class="stat-box">
-					<div class="stat-label">Total Mensual Estimado</div>
-					<div class="stat-value">
-						$<span
-							th:text="${#numbers.formatDecimal(totalGlobalMensual, 1, 2, 'POINT')}"></span>
-					</div>
-				</div>
+<!-- 				<div class="stat-box"> -->
+<!-- 					<div class="stat-label">Total Mensual Estimado</div> -->
+<!-- 					<div class="stat-value"> -->
+<!-- 						$<span -->
+<!-- 							th:text="${#numbers.formatDecimal(totalGlobalMensual, 1, 2, 'POINT')}"></span> -->
+<!-- 					</div> -->
+<!-- 				</div> -->
 				<div class="stat-box">
 					<div class="stat-label">Total Rendimiento Distribuido</div>
 					<div class="stat-value">
@@ -538,19 +538,19 @@ h1 {
 													<td th:text="${proyecto.fechaInicioRenta != null ? #temporals.format(proyecto.fechaInicioRenta, 'dd/MM/yyyy') : 'N/A'}"></td>
 													<td><span class="valor-positivo"
 														th:if="${proyecto.rentabilidadMensualReentel != null and proyecto.rentabilidadMensualReentel > 0}"
-														th:text="${#numbers.formatDecimal(proyecto.rentabilidadMensualReentel*proyecto.importeInversionDol/100, 1, 2, 'POINT')}"></span>
+														th:text="${#numbers.formatDecimal(proyecto.tipoRendimiento.periodo * proyecto.rentabilidadMensualReentel*proyecto.importeInversionDol/100, 1, 2, 'POINT')}"></span>
 														<span class="valor-cero"
 														th:if="${proyecto.rentabilidadMensualReentel == null or proyecto.rentabilidadMensualReentel == 0}">0.00</span>
 													</td>
 													<td><span class="valor-positivo"
 														th:if="${proyecto.rentabilidadMensualReentelPro != null and proyecto.rentabilidadMensualReentelPro > 0}"
-														th:text="${#numbers.formatDecimal(proyecto.rentabilidadMensualReentelPro*proyecto.importeInversionDol/100, 1, 2, 'POINT')}"></span>
+														th:text="${#numbers.formatDecimal(proyecto.tipoRendimiento.periodo * proyecto.rentabilidadMensualReentelPro*proyecto.importeInversionDol/100, 1, 2, 'POINT')}"></span>
 														<span class="valor-cero"
 														th:if="${proyecto.rentabilidadMensualReentelPro == null or proyecto.rentabilidadMensualReentelPro == 0}">0.00</span>
 													</td>
 													<td><span class="valor-positivo"
 														th:if="${proyecto.rentabilidadMensualReentelSuper != null and proyecto.rentabilidadMensualReentelSuper > 0}"
-														th:text="${#numbers.formatDecimal(proyecto.rentabilidadMensualReentelSuper*proyecto.importeInversionDol/100, 1, 2, 'POINT')}"></span>
+														th:text="${#numbers.formatDecimal(proyecto.tipoRendimiento.periodo * proyecto.rentabilidadMensualReentelSuper*proyecto.importeInversionDol/100, 1, 2, 'POINT')}"></span>
 														<span class="valor-cero"
 														th:if="${proyecto.rentabilidadMensualReentelSuper == null or proyecto.rentabilidadMensualReentelSuper == 0}">0.00</span>
 													</td>

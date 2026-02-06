@@ -140,8 +140,7 @@ public class RendimientoController {
 		model.addAttribute("totalClaimed", totalesPorMes.values().stream().mapToDouble(m -> m.get("claimed")).sum());
 
 		// Ordenar los años en orden descendente
-		List<Integer> anosOrdenados = rendimientosPorAno.keySet().stream()
-				.sorted((a, b) -> b.compareTo(a))
+		List<Integer> anosOrdenados = rendimientosPorAno.keySet().stream().sorted((a, b) -> b.compareTo(a))
 				.collect(Collectors.toList());
 
 		model.addAttribute("rendimientosPorMes", rendimientosPorMes);
@@ -180,7 +179,8 @@ public class RendimientoController {
 					estimacionesPorMes.putIfAbsent(ym, new java.util.ArrayList<>());
 					estimacionesPorMes.get(ym).add(proyecto);
 				}
-				mesActual = mesActual.plusMonths(1);
+//				mesActual = mesActual.plusMonths(1);
+				mesActual = mesActual.plusMonths(proyecto.getTipoRendimiento().getPeriodo());
 			}
 		}
 
@@ -224,21 +224,27 @@ public class RendimientoController {
 
 			// Calcular rentabilidad mensual por tipo
 			double rentMensualReentel = proyectosList.stream()
-					.mapToDouble(p -> p.getRentabilidadMensualReentel() != null
-							? p.getRentabilidadMensualReentel() * p.getImporteInversionDol() / 100
-							: 0)
+					.mapToDouble(
+							p -> p.getRentabilidadMensualReentel() != null
+									? p.getTipoRendimiento().getPeriodo() * p.getRentabilidadMensualReentel()
+											* p.getImporteInversionDol() / 100
+									: 0)
 					.sum();
 
 			double rentMensualReentelPro = proyectosList.stream()
-					.mapToDouble(p -> p.getRentabilidadMensualReentelPro() != null
-							? p.getRentabilidadMensualReentelPro() * p.getImporteInversionDol() / 100
-							: 0)
+					.mapToDouble(
+							p -> p.getRentabilidadMensualReentelPro() != null
+									? p.getTipoRendimiento().getPeriodo() * p.getRentabilidadMensualReentelPro()
+											* p.getImporteInversionDol() / 100
+									: 0)
 					.sum();
 
 			double rentMensualReentelSuper = proyectosList.stream()
-					.mapToDouble(p -> p.getRentabilidadMensualReentelSuper() != null
-							? p.getRentabilidadMensualReentelSuper() * p.getImporteInversionDol() / 100
-							: 0)
+					.mapToDouble(
+							p -> p.getRentabilidadMensualReentelSuper() != null
+									? p.getTipoRendimiento().getPeriodo() * p.getRentabilidadMensualReentelSuper()
+											* p.getImporteInversionDol() / 100
+									: 0)
 					.sum();
 
 			double totalMensual = rentMensualReentel + rentMensualReentelPro + rentMensualReentelSuper;
