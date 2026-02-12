@@ -20,55 +20,118 @@ h1 {
 	margin: 15px 0;
 	cursor: pointer;
 	transition: transform 0.3s;
+	height: 100%;
 }
 
 .card-menu:hover {
 	transform: translateY(-5px);
 	box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+	color: white;
+	text-decoration: none;
 }
 
 .card-menu a {
 	color: white;
 	text-decoration: none;
-	display: block;
-	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 30px 20px;
 	font-size: 18px;
 	font-weight: bold;
+	min-height: 120px;
+	text-align: center;
+}
+
+.card-menu a:hover {
+	color: white;
+	text-decoration: none;
+}
+
+@media (max-width: 768px) {
+	h1 {
+		font-size: 24px;
+		margin-bottom: 20px;
+	}
+
+	.card-menu {
+		margin: 10px 0;
+	}
+
+	.card-menu a {
+		padding: 20px 15px;
+		font-size: 16px;
+		min-height: 100px;
+	}
+}
+
+@media (max-width: 576px) {
+	h1 {
+		font-size: 20px;
+		margin-bottom: 15px;
+	}
+
+	.card-menu a {
+		padding: 15px 10px;
+		font-size: 14px;
+		min-height: 90px;
+	}
+
+	.container-main {
+		padding: 20px !important;
+	}
+
+	.row {
+		margin-right: -7.5px;
+		margin-left: -7.5px;
+	}
+
+	.col-md-3 {
+		padding-right: 7.5px;
+		padding-left: 7.5px;
+	}
+}
+
+@media (max-width: 480px) {
+	.col-md-3 {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
 }
     </style>
 </head>
 <body>
-	<!-- Sidebar -->
-	<div th:include="menu :: sidebar" class="sidebar"></div>
+	<!-- Navigation Bar -->
+	<div th:include="menu :: sidebar"></div>
 
 	<!-- Content -->
 	<div class="content">
 		<div class="container-main">
 			<h1>🏢 Sistema de Gestión de Inversiones</h1>
 			
-			<div class="row">
-				<div class="col-md-3">
+			<div class="row g-3">
+				<div class="col-md-3 col-sm-6 col-12">
 					<div class="card card-menu">
 						<a href="/inversiones/proyecto">
 							<i class="bi bi-briefcase"></i> Proyectos
 						</a>
 					</div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 col-sm-6 col-12">
 					<div class="card card-menu">
 						<a href="/inversiones/proyecto/importCsv">
 							<i class="bi bi-briefcase"></i> Importar CSV
 						</a>
 					</div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 col-sm-6 col-12">
 					<div class="card card-menu">
 						<a href="/inversiones/rendimiento">
 							<i class="bi bi-graph-up"></i> Rendimientos
 						</a>
 					</div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3 col-sm-6 col-12">
 					<div class="card card-menu">
 						<a href="/inversiones/tipoRendimiento">
 							<i class="bi bi-tag"></i> Tipos de Rendimiento
@@ -80,5 +143,71 @@ h1 {
 	</div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Navigation Toggle Script -->
+    <script>
+    function toggleMenu() {
+        const mobileMenu = document.querySelector('.navbar-mobile');
+        const hamburger = document.querySelector('.hamburger');
+        const closeBtn = document.querySelector('.close');
+        
+        if (mobileMenu) {
+            mobileMenu.classList.toggle('active');
+            if (hamburger && closeBtn) {
+                if (mobileMenu.classList.contains('active')) {
+                    hamburger.style.display = 'none';
+                    closeBtn.style.display = 'inline';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    hamburger.style.display = 'inline';
+                    closeBtn.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const mobileMenu = document.querySelector('.navbar-mobile');
+                const hamburger = document.querySelector('.hamburger');
+                const closeBtn = document.querySelector('.close');
+                if (mobileMenu && mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    hamburger.style.display = 'inline';
+                    closeBtn.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+
+        document.addEventListener('click', function(event) {
+            const navbar = document.querySelector('.navbar');
+            const mobileMenu = document.querySelector('.navbar-mobile');
+            if (navbar && !navbar.contains(event.target) && mobileMenu && mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                document.querySelector('.hamburger').style.display = 'inline';
+                document.querySelector('.close').style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                const mobileMenu = document.querySelector('.navbar-mobile');
+                const hamburger = document.querySelector('.hamburger');
+                const closeBtn = document.querySelector('.close');
+                if (mobileMenu && mobileMenu.classList.contains('active')) {
+                    mobileMenu.classList.remove('active');
+                    hamburger.style.display = 'none';
+                    closeBtn.style.display = 'inline';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+    });
+    </script>
 </body>
 </html>
